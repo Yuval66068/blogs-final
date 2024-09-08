@@ -3,6 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import { connectDB } from "./db/db";
+import { usersRouter } from "./routes/user";
 
 const app = express();
 dotenv.config();
@@ -14,7 +15,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // app.use("/api/cards", cardsRouter);
-// app.use("/api/users",usersRouter)
+app.use("/api/users",usersRouter)
 
 app.listen(port,() => console.log(`server is running on http://localhost:${port}`));
 
