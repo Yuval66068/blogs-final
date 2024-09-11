@@ -21,7 +21,13 @@ export interface IUser extends IUserInput {
 }
 
 export interface  IUserCustomRequest extends Request {
-    user: IUser
+  role?: UserRole
+  userId?: string
 }
 
-type UserRole = "admin" | "basic";
+export interface IJWTPayload {
+  role: UserRole
+  _id: string
+}
+
+export type UserRole = "admin" | "basic";
