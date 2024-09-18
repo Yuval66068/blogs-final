@@ -1,0 +1,14 @@
+.navBarContainer {
+  .mainNav {
+    display: flex;
+    gap: 10px;
+    .navLink {
+      text-decoration: none;
+      color: #fff;
+    }
+    .active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
+}

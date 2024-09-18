@@ -1,19 +1,25 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import App from './App';
-import Home from './pages/home/Home';
-import Login from './pages/login/Login';
-import Signup from './pages/signup/Signup';
-import EditBlog from './pages/editBlog/EditBlog';
-import NewBlog from './pages/newBlog/NewBlog';
-import Favorites from './pages/favorites/Favorites';
-import MyBlogs from './pages/myBlogs/MyBlogs';
-import SingleBlog from './pages/singleBlog/SingleBlog';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import App from "./App";
+import Home from "./pages/home/Home";
+import Login from "./pages/login/Login";
+import Signup from "./pages/signup/Signup";
+import EditBlog from "./pages/editBlog/EditBlog";
+import NewBlog from "./pages/newBlog/NewBlog";
+import Favorites from "./pages/favorites/Favorites";
+import MyBlogs from "./pages/myBlogs/MyBlogs";
+import SingleBlog from "./pages/singleBlog/SingleBlog";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import BlogProvider from "./context/BlogContext";
+import AuthProvider from "./context/AuthContext";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "light",
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -22,42 +28,48 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />
+        element: <Home />,
       },
       {
         path: "/login",
-        element: <Login />
+        element: <Login />,
       },
       {
         path: "/signup",
-        element: <Signup />
+        element: <Signup />,
       },
       {
         path: "/editBlog/:id",
-        element: <EditBlog />
+        element: <EditBlog />,
       },
       {
         path: "/newBlog",
-        element: <NewBlog />
+        element: <NewBlog />,
       },
       {
         path: "/favorites",
-        element: <Favorites />
+        element: <Favorites />,
       },
       {
         path: "/myBlogs",
-        element: <MyBlogs />
+        element: <MyBlogs />,
       },
       {
         path: "/singleBlog/:id",
-        element: <SingleBlog />
+        element: <SingleBlog />,
       },
     ],
   },
 ]);
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-     <RouterProvider router={router} />
-  </StrictMode>,
-)
+    <AuthProvider>
+      <BlogProvider>
+        <ThemeProvider theme={darkTheme}>
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </BlogProvider>
+    </AuthProvider>
+  </StrictMode>
+);
