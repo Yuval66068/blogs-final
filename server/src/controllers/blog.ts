@@ -1,11 +1,15 @@
 import { Blog } from "../db/models/blog";
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { IUserCustomRequest } from "../types/user";
+import { blogValidationSchema } from "../validations/blog";
 
 export const createBlog = async (req:IUserCustomRequest, res:Response) => {
+  const blogFormData = {...req.body, userId: req.userId};
 
     try {
-      const blog = await Blog.create({...req.body, userId: req.userId});
+      await blogValidationSchema.validateAsync(blogFormData);
+
+      const blog = await Blog.create(blogFormData);
       res.status(200).json({ message: "blog created successfully", blog });
     } catch (error) {
       res.status(400).json({ message: error.message });
