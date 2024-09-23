@@ -14,6 +14,8 @@ import SingleBlog from "./pages/singleBlog/SingleBlog";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import BlogProvider from "./context/BlogContext";
 import AuthProvider from "./context/AuthContext";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const darkTheme = createTheme({
   palette: {
@@ -68,6 +70,7 @@ createRoot(document.getElementById("root")!).render(
       <BlogProvider>
         <ThemeProvider theme={darkTheme}>
           <RouterProvider router={router} />
+          <ToastContainer />
         </ThemeProvider>
       </BlogProvider>
     </AuthProvider>

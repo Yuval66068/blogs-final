@@ -16,7 +16,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use("/api/blogs", blogsRouter);
-app.use("/api/users",usersRouter)
+app.use("/api/users",usersRouter);
 
 app.listen(port,() => console.log(`server is running on http://localhost:${port}`));
 
