@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Container, Card, CardMedia, CardContent, Typography, CardActions, Button, Box } from '@mui/material';
 import { BlogContext, BlogContextType } from '../../context/BlogContext';
 import { FaInfoCircle } from 'react-icons/fa';
-import { AiOutlineLike } from 'react-icons/ai';
+import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import classes from './MyBlogs.module.scss';
 
@@ -13,11 +13,6 @@ const MyBlogs: React.FC = () => {
   useEffect(() => {
     getMyBlogs();
   }, []);
-
-  const handleLike = (id: string) => {
-    console.log(`Liked blog with ID: ${id}`);
-    // Implement like logic here
-  };
 
   return (
     <Container maxWidth="lg" className={classes.myBlogsContainer}>
@@ -34,7 +29,6 @@ const MyBlogs: React.FC = () => {
       >
         {myBlogs && myBlogs.map((blog) => (
           <Card key={blog._id} className={classes.card}>
-            {/* Blog Image */}
             <CardMedia
               component="img"
               height="140"
@@ -42,7 +36,6 @@ const MyBlogs: React.FC = () => {
               alt={blog.image.alt}
             />
 
-            {/* Blog Title */}
             <CardContent>
               <Typography variant="h5" component="div" gutterBottom>
                 {blog.title}
@@ -50,6 +43,13 @@ const MyBlogs: React.FC = () => {
             </CardContent>
 
             <CardActions>
+              <Button
+                size="small"
+                color="primary"
+                onClick={() => navigate(`/editBlog/${blog._id}`)}
+              >
+                <FaRegEdit size={24} />
+              </Button>
               <Button
                 size="small"
                 color="primary"

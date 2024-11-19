@@ -10,7 +10,7 @@ export interface BlogContextType {
   getBlogById: (blogId: string) => Promise<void>;
   addBlog: (blogFormData: IBlogInput) => Promise<boolean>
   deleteBlogById: (blogId: string) => Promise<void>;
-  editBlogById: (blogId: string, blogFormData: IBlogInput) => Promise<void>;
+  editBlogById: (blogId: string, blogFormData: IBlogInput) => Promise<boolean>
   toggleBlogLike: (blogId: string) => Promise<void>;
   getMyBlogs: () => Promise<void>;
 }
@@ -92,8 +92,10 @@ const BlogProvider: React.FC<{ children: React.ReactNode }> = ({
           Authorization: `Bearer ${auth}`,
         },
       });
+      return true;
     } catch (error) {
       console.log(error);
+      return false;
     }
   };
   const toggleBlogLike = async (blogId: string) => {
