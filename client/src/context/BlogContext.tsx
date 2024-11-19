@@ -5,6 +5,7 @@ import { AuthContext, AuthContextType } from "./AuthContext";
 
 export interface BlogContextType {
   blogs: IBlog[] | null;
+  blog: IBlog | null;
   getAllBlogs: () => Promise<void>;
   getBlogById: (blogId: string) => Promise<void>;
   addBlog: (blogFormData: IBlogInput) => Promise<boolean>
@@ -112,6 +113,7 @@ const BlogProvider: React.FC<{ children: React.ReactNode }> = ({
     <BlogContext.Provider
       value={{
         blogs,
+        blog,
         getAllBlogs,
         getBlogById,
         addBlog,

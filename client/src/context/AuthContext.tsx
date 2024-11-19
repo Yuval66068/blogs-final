@@ -29,8 +29,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setAuth(token);
   }, []);
 
-  console.log(auth)
-
   const signup = async (userFormData: IUserInput) => {
     try {
       const response = await axios.post(`${BASE_URL}/signup`, userFormData);
