@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
-import { IUserInput } from "../interfaces/auth";
+import { IJWTPayload, IUser, IUserInput } from "../interfaces/auth";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export interface AuthContextType {
   auth: string | null;
@@ -13,7 +14,8 @@ export interface AuthContextType {
     email: string;
   }) => Promise<boolean>;
   logout: () => void;
-  getUserByID: (userId: string) => Promise<any>
+  getUserByID: (userId: string) => Promise<any>;
+  currentUser: IUser | null
 }
 
 const BASE_URL = "http://localhost:8080/api/users";
@@ -24,11 +26,25 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [auth, setAuth] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<IUser | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setAuth(token);
   }, []);
+
+  useEffect(() => {
+    getCurrentUser();
+  }, [auth]);
+
+
+  const getCurrentUser = async () => {
+    if (auth) {
+      const decoded: IJWTPayload = jwtDecode(auth);
+      const user = await getUserByID(decoded._id);
+      setCurrentUser(user);
+    }
+  };
 
   const signup = async (userFormData: IUserInput) => {
     try {
@@ -65,7 +81,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logout = () => {
     try {
-        setAuth(null);
+      setAuth(null);
       localStorage.clear();
     } catch (error) {
       console.log(error);
@@ -83,7 +99,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <AuthContext.Provider value={{ auth, signup, login, logout, getUserByID }}>
+    <AuthContext.Provider value={{ auth, signup, login, logout, getUserByID, currentUser }}>
       {children}
     </AuthContext.Provider>
   );

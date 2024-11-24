@@ -2,33 +2,18 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
 import classes from "./NavBar.module.scss";
 import Box from "@mui/material/Box";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { AuthContext, AuthContextType } from "../../context/AuthContext";
 import Avatar from "@mui/material/Avatar";
-import { jwtDecode } from "jwt-decode";
-import { IJWTPayload, IUser } from "../../interfaces/auth";
 
 const Navbar = () => {
-  const { auth, logout, getUserByID } = useContext(
+  const { auth, logout, currentUser } = useContext(
     AuthContext
   ) as AuthContextType;
-  const [currentUser, setCurrentUser] = useState<IUser | null>(null);
 
-  useEffect(() => {
-    getCurrentUser();
-  }, [auth]);
-
-  const getCurrentUser = async () => {
-    if (auth) {
-      const decoded: IJWTPayload = jwtDecode(auth);
-      const user = await getUserByID(decoded._id);
-      setCurrentUser(user);
-    }
-  };
 
   return (
     <AppBar position="static" className={classes.navBarContainer}>

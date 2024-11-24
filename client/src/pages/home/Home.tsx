@@ -1,24 +1,21 @@
-import React, { useContext, useEffect } from 'react';
-import { Container, Card, CardMedia, CardContent, Typography, CardActions, Button, Box } from '@mui/material';
-import classes from './Home.module.scss';
-import { BlogContext, BlogContextType } from '../../context/BlogContext';
-import { FaInfoCircle } from "react-icons/fa";
-import { AiOutlineLike } from "react-icons/ai";
-import { useNavigate } from 'react-router-dom';
-
+import React, { useContext, useEffect } from "react";
+import {
+  Container,
+  Typography,
+  Box,
+} from "@mui/material";
+import classes from "./Home.module.scss";
+import { BlogContext, BlogContextType } from "../../context/BlogContext";
+import HomeBlog from "./HomeBlog";
 
 const Home: React.FC = () => {
-  const { blogs, getAllBlogs, toggleBlogLike } = useContext(BlogContext) as BlogContextType;
-  const navigate = useNavigate();
+  const { blogs, getAllBlogs } = useContext(
+    BlogContext
+  ) as BlogContextType;
 
   useEffect(() => {
     getAllBlogs();
   }, []);
-
-  const handleLike = async (blogId: string) => {
-    console.log(`Liked blog with blogId: ${blogId}`);
-    await toggleBlogLike(blogId);
-  };
 
   return (
     <Container maxWidth="lg" className={classes.homeContainer}>
@@ -27,47 +24,16 @@ const Home: React.FC = () => {
       </Typography>
       <Box
         sx={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
           gap: 2,
           marginTop: 4,
         }}
       >
-        {blogs && blogs.map((blog) => (
-          <Card key={blog._id} className={classes.card}>
-            {/* Blog Image */}
-            <CardMedia
-              component="img"
-              height="140"
-              image={blog.image.url}
-              alt={blog.image.alt}
-            />
-
-            {/* Blog Title */}
-            <CardContent>
-              <Typography variant="h5" component="div" gutterBottom>
-                {blog.title}
-              </Typography>
-            </CardContent>
-
-            {/* Actions */}
-            <CardActions>
-              <Button
-                size="small"
-                color="primary"
-                onClick={() => handleLike(blog._id)}
-              >
-                <AiOutlineLike size={24}/>
-              </Button>
-              <Button
-                size="small"
-                color="primary"
-              >
-                <FaInfoCircle size={24} onClick={() => navigate(`/singleBlog/${blog._id}`)}/>
-              </Button>
-            </CardActions>
-          </Card>
-        ))}
+        {blogs &&
+          blogs.map((blog) => (
+            <HomeBlog key={blog._id} blog={blog}/>
+          ))}
       </Box>
     </Container>
   );
