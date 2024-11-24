@@ -13,6 +13,7 @@ export interface AuthContextType {
     email: string;
   }) => Promise<boolean>;
   logout: () => void;
+  getUserByID: (userId: string) => Promise<any>
 }
 
 const BASE_URL = "http://localhost:8080/api/users";
@@ -71,8 +72,18 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const getUserByID = async (userId: string) => {
+    try {
+      const response = await axios(`${BASE_URL}/${userId}`);
+      // console.log(response);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ auth, signup, login, logout }}>
+    <AuthContext.Provider value={{ auth, signup, login, logout, getUserByID }}>
       {children}
     </AuthContext.Provider>
   );

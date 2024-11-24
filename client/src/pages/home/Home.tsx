@@ -8,16 +8,16 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Home: React.FC = () => {
-  const { blogs, getAllBlogs } = useContext(BlogContext) as BlogContextType;
+  const { blogs, getAllBlogs, toggleBlogLike } = useContext(BlogContext) as BlogContextType;
   const navigate = useNavigate();
 
   useEffect(() => {
     getAllBlogs();
   }, []);
 
-  const handleLike = (id: string) => {
-    console.log(`Liked blog with ID: ${id}`);
-    // Implement like logic here
+  const handleLike = async (blogId: string) => {
+    console.log(`Liked blog with blogId: ${blogId}`);
+    await toggleBlogLike(blogId);
   };
 
   return (
@@ -55,14 +55,13 @@ const Home: React.FC = () => {
               <Button
                 size="small"
                 color="primary"
-                // onClick={() => handleLike(blog._id)}
+                onClick={() => handleLike(blog._id)}
               >
                 <AiOutlineLike size={24}/>
               </Button>
               <Button
                 size="small"
                 color="primary"
-                // onClick={() => handleLike(blog._id)}
               >
                 <FaInfoCircle size={24} onClick={() => navigate(`/singleBlog/${blog._id}`)}/>
               </Button>

@@ -100,7 +100,7 @@ const BlogProvider: React.FC<{ children: React.ReactNode }> = ({
   };
   const toggleBlogLike = async (blogId: string) => {
     try {
-      const response = await axios.patch(`${BASE_URL}/${blogId}`, {
+      const response = await axios.patch(`${BASE_URL}/${blogId}`,{}, {
         headers: {
           Authorization: `Bearer ${auth}`,
         },
