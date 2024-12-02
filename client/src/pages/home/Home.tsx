@@ -7,11 +7,13 @@ import {
 import classes from "./Home.module.scss";
 import { BlogContext, BlogContextType } from "../../context/BlogContext";
 import HomeBlog from "./HomeBlog";
+import { AuthContext, AuthContextType } from "../../context/AuthContext";
 
 const Home: React.FC = () => {
   const { blogs, getAllBlogs } = useContext(
     BlogContext
   ) as BlogContextType;
+  const {auth} = useContext(AuthContext) as AuthContextType;
 
   useEffect(() => {
     getAllBlogs();
@@ -32,7 +34,7 @@ const Home: React.FC = () => {
       >
         {blogs &&
           blogs.map((blog) => (
-            <HomeBlog key={blog._id} blog={blog}/>
+            <HomeBlog key={blog._id} blog={blog} auth={auth}/>
           ))}
       </Box>
     </Container>

@@ -14,7 +14,7 @@ export interface AuthContextType {
     email: string;
   }) => Promise<boolean>;
   logout: () => void;
-  getUserByID: (userId: string) => Promise<any>;
+  getUserByID: (userId: string) => Promise<void>;
   currentUser: IUser | null
 }
 
@@ -25,13 +25,8 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [auth, setAuth] = useState<string | null>(null);
+  const [auth, setAuth] = useState<string | null>(localStorage.getItem("token") || null);
   const [currentUser, setCurrentUser] = useState<IUser | null>(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setAuth(token);
-  }, []);
 
   useEffect(() => {
     getCurrentUser();
@@ -56,6 +51,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return false;
     }
   };
+  
 
   const login = async ({
     password,

@@ -17,9 +17,10 @@ import { useNavigate } from "react-router-dom";
 
 interface HomeBlogProps {
   blog: IBlog;
+  auth: string | null;
 }
 
-const HomeBlog = ({ blog }: HomeBlogProps) => {
+const HomeBlog = ({ blog, auth }: HomeBlogProps) => {
   const { toggleBlogLike } = useContext(BlogContext) as BlogContextType;
   const { currentUser } = useContext(AuthContext) as AuthContextType;
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const HomeBlog = ({ blog }: HomeBlogProps) => {
         </Typography>
       </CardContent>
 
-      {/* Actions */}
+    {auth && 
       <CardActions>
         <Button
           size="small"
@@ -56,13 +57,14 @@ const HomeBlog = ({ blog }: HomeBlogProps) => {
         >
           {isLiked ? <AiFillLike size={24} /> : <AiOutlineLike size={24} />}
         </Button>
-        <Button size="small" color="primary">
-          <FaInfoCircle
-            size={24}
-            onClick={() => navigate(`/singleBlog/${blog._id}`)}
-          />
-        </Button>
+          <Button size="small" color="primary">
+            <FaInfoCircle
+              size={24}
+              onClick={() => navigate(`/singleBlog/${blog._id}`)}
+            />
+          </Button>
       </CardActions>
+    }
     </Card>
   );
 };

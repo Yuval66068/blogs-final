@@ -19,7 +19,7 @@ const Favorites = () => {
   return (
     <Container maxWidth="lg" className={classes.favoritesContainer}>
       <Typography variant="h3" align="center" gutterBottom>
-        Blog Home
+        Favorites
       </Typography>
       <Box
         sx={{

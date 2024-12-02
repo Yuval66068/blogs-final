@@ -25,7 +25,7 @@ const Navbar = () => {
 
   const navLinks = [
     { to: "/", label: "Home" },
-    { to: "/myBlogs", label: "My Blogs", authRequired: true },
+    { to: "/MyBlogs", label: "My Blogs", authRequired: true },
     { to: "/favorites", label: "Favorites", authRequired: true },
     { to: "/newBlog", label: "New Blog", authRequired: true },
     { to: "/login", label: "Logout", onClick: logout, authRequired: true },
@@ -33,9 +33,16 @@ const Navbar = () => {
     { to: "/signup", label: "Signup", authRequired: false },
   ];
 
-  const renderNavLinks = (isDrawer = false) =>
-    navLinks
-      .filter(link => (auth ? true : !link.authRequired))
+  const renderNavLinks = (isDrawer = false) => {
+    return navLinks
+      .filter(link => {
+        // Hide "Login" and "Signup" when the user is logged in
+        if (auth && (link.label === "Login" || link.label === "Signup")) {
+          return false;
+        }
+        // Show links based on whether the user is authenticated
+        return auth || !link.authRequired;
+      })
       .map(({ to, label, onClick }, index) => (
         <NavLink
           key={index}
@@ -57,6 +64,7 @@ const Navbar = () => {
           )}
         </NavLink>
       ));
+  };
 
   return (
     <AppBar position="static" className={classes.navBarContainer}>
